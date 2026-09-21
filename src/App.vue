@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <h1>Think Diffrent Acadenmi</h1>
+  <h1>Think diffrent Academy</h1>
 </template>
 
 <style scoped></style>
