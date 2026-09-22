@@ -1,0 +1,21 @@
+name: Deploy to Tour de App
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Upload to Tour de Cloud
+        uses: studentscangrow/upload-app@v27
+        with:
+          tdc_token: ${{ secrets.TDC_TOKEN }}

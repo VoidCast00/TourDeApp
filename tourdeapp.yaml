@@ -1,0 +1,9 @@
+# $schema: https://tourde.cloud/api/v2/schema
+exposedPort: 80
+containers:
+  - name: web
+    image: registry.tourde.cloud/nullptr/web
+    port: 80
+build:
+  - name: web
+    context: .
