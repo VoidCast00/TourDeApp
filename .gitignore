@@ -6,13 +6,20 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+bun-debug.log*
 
 node_modules
 .DS_Store
+Thumbs.db
 dist
 dist-ssr
 coverage
 *.local
+
+# Env
+.env
+.env.*
+!.env.example
 
 # Editor directories and files
 .vscode/*
