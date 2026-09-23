@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ref, onMounted} from 'vue'
-
+import { createRouter } from 'vue-router'
 const Status = ref()
 
 onMounted(async () => {
