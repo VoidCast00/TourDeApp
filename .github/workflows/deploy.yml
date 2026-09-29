@@ -26,6 +26,12 @@ jobs:
       - name: Type-check
         run: bun run type-check
 
+      - name: Build
+        run: bun run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+
       - name: Upload to Tour de Cloud
         uses: studentscangrow/upload-app@v27
         with:
