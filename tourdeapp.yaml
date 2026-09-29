@@ -9,6 +9,8 @@ containers:
     port: 8080
     env:
       PORT: "8080"
+      VITE_SUPABASE_URL: "{{VITE_SUPABASE_URL}}"
+      VITE_SUPABASE_PUBLISHABLE_KEY: "{{VITE_SUPABASE_PUBLISHABLE_KEY}}"
 build:
   - name: web
     context: .
