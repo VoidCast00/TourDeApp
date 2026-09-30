@@ -31,11 +31,13 @@ jobs:
         env:
           VITE_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_JWT_SECRET: ${{secrets.JWT_SECRET}}
 
       - name: Upload to Tour de Cloud
         uses: studentscangrow/upload-app@v27
         env:
           VITE_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_JWT_SECRET: ${{secrets.JWT_SECRET}}
         with:
           tdc_token: ${{ secrets.TDC_TOKEN }}

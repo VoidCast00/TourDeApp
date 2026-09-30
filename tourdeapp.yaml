@@ -11,6 +11,7 @@ containers:
       PORT: "8080"
       VITE_SUPABASE_URL: "{{VITE_SUPABASE_URL}}"
       VITE_SUPABASE_PUBLISHABLE_KEY: "{{VITE_SUPABASE_PUBLISHABLE_KEY}}"
+      VITE_JWT_SECRET: ${{secrets.JWT_SECRET}}
 build:
   - name: web
     context: .

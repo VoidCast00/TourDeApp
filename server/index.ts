@@ -1,9 +1,15 @@
 import { Elysia, status, t } from 'elysia';
 import { type User } from '@shared/types'
 import argon2 from 'argon2';
+import jwt from 'jsonwebtoken';
+
+
 
 const users: User[] = [];
 const PASSWORD_MIN_LENGTH = 8;
+const JWT_SECRET = process.env.JWT_SECRET
+
+
 
 async function addUser(name: string, password: string): Promise<User> {
   const passwordHash = await argon2.hash(password);
@@ -33,7 +39,7 @@ new Elysia()
   .get("/api/v1/health", () => ({ status: 'ok' }))
 
  //====================== REGISTER a user
-  .post('/api/v1/register', async ({ body, set }) => {
+  .post("/api/v1/register", async ({ body, set }) => {
     const newUser = await addUser(body.name, body.password);
 
     set.status = 201;
@@ -45,7 +51,6 @@ new Elysia()
     })
   })
 //=======================REMOVE user
-
 
 
 
