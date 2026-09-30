@@ -2,8 +2,10 @@ import { Elysia, status, t } from 'elysia';
 import { type User } from '@shared/types'
 import argon2 from 'argon2';
 
-const users: User[] = [];
+
+const users: User[] = []
 const PASSWORD_MIN_LENGTH = 8;
+
 
 async function addUser(name: string, password: string): Promise<User> {
   const passwordHash = await argon2.hash(password);
@@ -14,6 +16,8 @@ async function addUser(name: string, password: string): Promise<User> {
   };
 
   users.push(newUser);
+ 
+  
 
   return newUser;
 }
