@@ -1,44 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { type User } from '@shared/types'
+import {submitLogin, submitRegister, registerName, registerPassword, loginName,loginPassword, loading, getUsersnames, currentUserName, users} from './userService'
 
 
-const users = ref<User[]>([])
-const registerName = ref('')
-const registerPassword = ref('')
-
-
-async function getUsersnames() {
-  try{
-    const response = await fetch ("/api/v1/users");
-    if(!response.ok) {throw new Error(response.status.toString())}
-    const data = await response.json();
-    users.value = data;
-  }
-  catch(err){
-    console.error("failed to get users: ", err)
-  }
-
-}
-
-async function addUser(name:string, password: string) {
-  try{ 
-    const response = await fetch("/api/v1/users", {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password, name }),
-    });
-    if(!response.ok){
-      const error = await response.json();
-      console.log(error);
-      throw new Error(error.error)
-    }
-
-    console.log(response.json());
-  }catch(err){
-    console.error("Failed to create user: ", err)
-  }
-}
 
 onMounted(() => {
 })
@@ -47,12 +11,25 @@ onMounted(() => {
 
 
 <template>
-  <form @submit.prevent="addUser(registerName, registerPassword)">
+  <h1>register</h1> 
+  <form @submit.prevent="submitRegister()">
     <input v-model="registerName" placeholder="name" />
     <input v-model="registerPassword" type="password" placeholder="password" />
-    <button type="submit">register</button>
-  </form>
+    <button type="submit">Register</button>
+  </form><br>
+<h1>Login:</h1>
+  <form @submit.prevent="submitLogin()">
+    <input v-model="loginName" placeholder="name" />
+    <input v-model="loginPassword" type="password" placeholder="password" />
+    <button type="submit">Login</button>
+  </form><p v-if="loading">...</p> <br>
+
+  
 
   <button @click="getUsersnames()">get users</button>
   <div v-for="user in users">{{ user }}</div>
+
+  
+  <div> <h3>{{ currentUserName }}</h3></div>
+
 </template>
