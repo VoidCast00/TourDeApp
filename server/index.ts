@@ -5,9 +5,11 @@ import jwt from 'jsonwebtoken';
 
 
 
-const users: User[] = [];
+
+const users: User[] = []
 const PASSWORD_MIN_LENGTH = 8;
 const JWT_SECRET = process.env.JWT_SECRET
+
 
 
 
@@ -20,6 +22,8 @@ async function addUser(name: string, password: string): Promise<User> {
   };
 
   users.push(newUser);
+ 
+  
 
   return newUser;
 }

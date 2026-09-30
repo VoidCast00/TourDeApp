@@ -4,7 +4,10 @@ import {submitLogin, submitRegister, registerName, registerPassword, loginName,l
 
 
 
+
+
 onMounted(() => {
+  
 })
 
 </script>
