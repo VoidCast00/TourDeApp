@@ -1,4 +1,4 @@
-// this is for talking to the backend about users (only fetch calls here, no vue state)
+// this is for talking to the backend about users (only fetch calls here no vue shit)
 
 export async function fetchUsernames(): Promise<string[]> {
   const response = await fetch("/api/v1/users");
