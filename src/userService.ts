@@ -33,12 +33,12 @@ export async function registerUser(name: string, password: string) {
     });
     if (!response.ok) {
       const error = await response.json();
-      console.log(error);
       throw new Error(error.error)
     }
-  } catch (err) {
-    console.error("Failed to create user: ", err)
-  }
+    console.log(response)
+    } catch (err) {
+     console.error("Failed to create user: ", err)
+    }
 }
 
 
@@ -52,10 +52,16 @@ export async function loginUser(name: string, password: string) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password, name }),
     });
+    console.log(response)
     if (response.status == 401) {
       console.log("credentials not correct")
+    
     } else if (response.status == 200) {
       currentUserName.value = name;
+    }else{
+      const error = await response.json();
+      console.log(error);
+      throw new Error(error.error)
     }
     
   } catch (err) {
@@ -75,7 +81,6 @@ export async function submitRegister() {
     registerName.value = ''
     registerPassword.value = ''
   }else{
-    registerPassword.value = ''
     window.alert("password too short")
   }
 }

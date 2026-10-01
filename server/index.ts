@@ -2,7 +2,8 @@ import { Elysia, status, t } from 'elysia';
 import { type User } from '@shared/types'
 import argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
-
+import {addUserToDB, getUserIdByName, getUserNameById, getUserPasswordHash} from './supabase'
+import { PostgrestError } from '@supabase/supabase-js';
 
 
 
@@ -13,26 +14,31 @@ const JWT_SECRET = process.env.JWT_SECRET
 
 
 
-async function addUser(name: string, password: string): Promise<User> {
+async function addUser(name: string, password: string): Promise<number> {
+  //DUCPLICATE CHEK NEEDED
   const passwordHash = await argon2.hash(password);
-  const newUser: User = {
-    id: crypto.randomUUID(),
-    name,
-    passwordHash: passwordHash,
-  };
-
-  users.push(newUser);
- 
-  
-
-  return newUser;
+  const response: PostgrestError|void = await addUserToDB(name, passwordHash)
+  if (response == undefined){
+    return 201;
+  }else{
+    console.log("ERROR database:" + response)
+    return 400
+  }
 }
-async function loginUser(name: string, password: string): Promise<boolean> {
-  const user  = users.find((user) => user.name.match(name))
-  if(user === undefined){return false;}
 
-  let passCorect : boolean = await argon2.verify(user.passwordHash, password)
-  return passCorect;
+async function loginUser(name: string, password: string): Promise<number> {
+  const userID : string|void  = await getUserIdByName(name);
+  console.log(userID)
+  if(userID === undefined){return 401;}  //Invalid 
+  console.log(userID);
+  const passwordHash :string|void = await getUserPasswordHash(userID);
+  if(passwordHash == undefined){return 401;} // invalid
+  let passCorect : boolean = await argon2.verify(passwordHash, password);
+  if (passCorect){
+    return 200
+  }else{
+    return 401 //invalid
+  }
 }
 
 
@@ -42,31 +48,26 @@ new Elysia()
   })
   .get("/api/v1/health", () => ({ status: 'ok' }))
 
- //====================== REGISTER a user
+ //================================================ REGISTER a user
   .post("/api/v1/register", async ({ body, set }) => {
-    const newUser = await addUser(body.name, body.password);
-
-    set.status = 201;
-    return { user: newUser };
+    set.status =  await addUser(body.name, body.password);
+    return
+    
   }, {
     body: t.Object({
       password: t.String({minLength:PASSWORD_MIN_LENGTH}),
       name: t.String(),
     })
   })
-//=======================REMOVE user
+//=============================================REMOVE user
 
 
 
 
-//=======================LOGIN user
+//===============================================LOGIN user
   .post('/api/v1/login', async ({ body, set }) => {
-    const correctCredential : boolean  = await loginUser(body.name, body.password)
-
-    if(correctCredential == true){set.status = 200;}
-    else{ set.status = 401}
-    
-    return {correctCredential}
+    set.status  = await loginUser(body.name, body.password)
+    return
   }, {
     body: t.Object({
       password: t.String(),
