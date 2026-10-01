@@ -4,7 +4,8 @@ import { PASSWORD_MIN_LENGTH } from '@shared/constants'
 import { loginUser, registerUser } from '@/api/userApi'
 
 const users = ref<string[]>([])
-const currentUserName = ref<string>("No One")
+const currentUserName = ref<string>('')
+const message = ref('') // little feedback line shown under the forms
 const registerName = ref('')
 const registerPassword = ref('')
 const loginName = ref('')
@@ -20,14 +21,16 @@ async function submitRegister() {
     loading.value = true
     try {
       await registerUser(tmpName, tmpPassword)
+      message.value = "account created, you can login now"
     } catch (err) {
       console.error("failed to create user: ", err)
+      message.value = "could not create account"
     }
     loading.value = false
     registerName.value = ''
     registerPassword.value = ''
   } else {
-    window.alert("password too short :(")
+    message.value = `password too short (min ${PASSWORD_MIN_LENGTH} characters)`
   }
 }
 
@@ -38,21 +41,22 @@ async function submitLogin() {
   try {
     if (await loginUser(name, password)) {
       currentUserName.value = name
+      message.value = ''
     } else {
-      console.log("credentials not correct")
+      message.value = "wrong name or password"
     }
   } catch (err) {
     console.error("failed to login: ", err)
+    message.value = "login failed"
   }
   loading.value = false
-  registerName.value = ''
-  registerPassword.value = ''
+  loginPassword.value = ''
 }
 
 //esier exports of functions and variables
 export function useUserState() {
   return {
-    users, currentUserName, loading,
+    users, currentUserName, loading, message,
     registerName, registerPassword, loginName, loginPassword,
     submitRegister, submitLogin,
   }

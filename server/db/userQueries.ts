@@ -11,7 +11,6 @@ export async function getUserPasswordHash(id: string): Promise<string|void> {
       .single()
 
     if (error) { throw error }
-    console.log(data);
     return String(data.password);
   } catch (err) {
     console.error("failed to get password hash: ", err);
@@ -26,9 +25,7 @@ export async function getUserNameById(id: string): Promise<string|void> {
       .eq("id", id)
       .single()
 
-    console.log(error)
     if (error) { throw new Error("error") }
-    console.log("data", + data);
     return String(data.name);
   } catch (err) {
     console.error("failed to get username by id: ", err)
@@ -43,7 +40,6 @@ export async function getUserIdByName(name: string): Promise<string> {
     .single()
 
   if (error) { throw error }
-  console.log(data);
   return String(data.id);
 }
 
