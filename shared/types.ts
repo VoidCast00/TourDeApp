@@ -4,20 +4,19 @@ export type User = {
     passwordHash:string,
 }
 
-export type Category = {
-    slug: string,
+export type Stop = {
+    id: number,
     name: string,
+    lines: string, // "A;B"
+    is_transfer: boolean,
+    transfer_lines: string | null, // "A;B"
+    x: number,
+    y: number,
+    wheelchair_accessible: boolean, // step-free
+    has_shelter: boolean,
+    has_bench: boolean,
+    has_ticket_machine: boolean,
+    has_display: boolean,
+    image_url: string | null,
 }
 
-export type Listing = {
-    id: number,
-    title: string,
-    description: string,
-    category: string, // Category.slug
-    city: string,
-    price: string, // free text for now ("20 €/h", "Negotiable")
-    postedAt: string, // TODO: real date once it comes from the db
-    author: string,
-    image?: string, // url, placeholder square is shown when missing
-    featured?: boolean, // "TOP" listings, shown with a badge
-}
