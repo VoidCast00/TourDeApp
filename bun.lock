@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "vuejob",
+      "name": "tourdeapp",
       "dependencies": {
         "@supabase/supabase-js": "^2.117.2",
         "argon2": "^0.45.1",
