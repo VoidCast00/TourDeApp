@@ -5,13 +5,14 @@ const { stops, loading, message, loadStops } = useStopState()
 
 onMounted(() => {
     loadStops()
+    console.log(stops)
 })
 
 
 </script>
 
 <template>
-<div v-for="stop in stops">
-    {{ stop.name }} {{ stop.image_url }}
+<div v-for="stop in stops" :key="stop.id">
+    {{ stop.name }} <img v-if="stop.image_url" :src="stop.image_url" alt="stop.name">
 </div>
 </template>
