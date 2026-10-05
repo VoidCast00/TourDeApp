@@ -44,3 +44,8 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+# Supabase CLI (local link state, branches, local env)
+supabase/.temp/
+supabase/.branches/
+supabase/.env
