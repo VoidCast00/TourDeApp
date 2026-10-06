@@ -1,19 +1,32 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted,ref,computed } from 'vue';
 import { useStopState } from '../state/stopStates';
 const { stops, loading, message, loadStops } = useStopState()
+const input = ref('')
+console.log(stops)
+
 
 onMounted(() => {
     loadStops()
+    
+    
+})
+const filteredStops = computed(() =>{
+    const search = input.value.toLowerCase().trim()
+    return stops.value.filter(stop => {
+    if(stop.name.toLowerCase().includes(search))
+    return true;
+    })
 })
 </script>
 
 <template>
+<input placeholder="search for stop" v-model="input"/>
 <p v-if="loading">loading stops...</p>
 <p v-else-if="message">{{ message }}</p>
-<p v-else-if="stops.length === 0">there are no stops yet</p>
+<p v-else-if="filteredStops.length === 0">there are no stops yet</p>
 <ul v-else>
-    <li v-for="stop in stops" :key="stop.id">
+    <li v-for="stop in filteredStops" :key="stop.id">
         <RouterLink :to="{ name: 'Detail', params: { id: stop.id } }">
             <h2>{{ stop.name }}</h2>
             <img
