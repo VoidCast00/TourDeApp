@@ -12,3 +12,9 @@ export async function fetchStop(id: number): Promise<Stop> {
   if (!response.ok) { throw new Error(response.status.toString()) }
   return await response.json();
 }
+
+export async function addStop(name:string){
+  const response = await fetch("/api/v1/stops/id");
+  if (!response.ok) { throw new Error(response.status.toString()) }
+}
+

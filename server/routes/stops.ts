@@ -1,11 +1,11 @@
 // this is for register and login routes
 import { Elysia, t } from 'elysia'
 import { PASSWORD_MIN_LENGTH } from '@shared/constants'
-import { listStops, getStop } from '../logic/stopsLogic'
+import { getAllStops, getStopById, addStop } from '../logic/stopsLogic'
 
 export const stopsRoutes = new Elysia()
   .get("/stops", async ({ set }) => {
-    const stops = await listStops();
+    const stops = await getAllStops();
     if (!stops){
         set.status = 500
         return{error:"failed to get stops"}
@@ -13,7 +13,7 @@ export const stopsRoutes = new Elysia()
     return stops;
   })
   .get("/stops/:id", async ({ params, set }) => {
-    const stop = await getStop(params.id);
+    const stop = await getStopById(params.id);
     if (stop === undefined){
         set.status = 500
         return{error:"failed to get stop"}
@@ -26,3 +26,13 @@ export const stopsRoutes = new Elysia()
   }, {
     params: t.Object({ id: t.Numeric() }) 
   })
+  
+  .post('/stops', async ({ body, set }) => {
+    set.status = await addStop(body.name)
+    return
+  }, {
+    body: t.Object({
+      name: t.String(),
+    })
+  })
+  

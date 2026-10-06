@@ -19,7 +19,6 @@ export async function addUser(name: string, password: string): Promise<number> {
 
 
 
-// returns the http status code
 export async function loginUser(name: string, password: string): Promise<number> {
   const userID: string | void = await getUserIdByName(name);
   console.log(userID)
