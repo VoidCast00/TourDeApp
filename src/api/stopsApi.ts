@@ -13,8 +13,11 @@ export async function fetchStop(id: number): Promise<Stop> {
   return await response.json();
 }
 
-export async function addStop(name:string){
-  const response = await fetch("/api/v1/stops/id");
+export async function addStop(name: string) {
+  const response = await fetch("/api/v1/stops", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name }),
+  });
   if (!response.ok) { throw new Error(response.status.toString()) }
 }
-
