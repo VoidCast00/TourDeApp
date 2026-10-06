@@ -1,9 +1,9 @@
 import { createMemoryHistory, createRouter } from 'vue-router'
 
 
-import Detail from '../sites/Detail.vue'
+import Detail from '../sites/StopDetail.vue'
 import App from '../sites/App.vue'
-import Stops from '../sites/Stops.vue'
+import Stops from '../sites/StopList.vue'
 
 
 const routes = [
