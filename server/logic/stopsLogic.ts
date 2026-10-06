@@ -27,14 +27,20 @@ export async function getStopById(id: number){
 export async function addStop(name: string): Promise<number>{
     try{
         const response : PostgrestError | void =  await addStopDB(name);
+        
         if(response == undefined){
             return 201;
         }else{
+            console.log("ERROR database:" + response.hint)
+            console.log("ERROR database:" + response.cause)
+            console.log("ERROR database:" + response.code)
+            console.log("ERROR database:" + response.message)
             console.error("ERROR database: " + response);
             return 400
         }
+
     }catch(err){
-        console.error("failed to get stop: ", err);
+        console.error("failed to get stop: ", err);        
         return 400;
     }
 }
