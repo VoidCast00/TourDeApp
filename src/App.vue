@@ -13,6 +13,11 @@ onMounted(() => {
 
 <template>
 <div v-for="stop in stops" :key="stop.id">
-    {{ stop.name }} <img v-if="stop.image_url" :src="stop.image_url" alt="stop.name">
+    {{ stop.name }} <img
+     v-if="stop.image_url"
+     :src="stop.image_url"
+     alt="stop.name"
+     loading="lazy"
+     width="300" height="300">
 </div>
 </template>
