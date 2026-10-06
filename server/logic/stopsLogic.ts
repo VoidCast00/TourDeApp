@@ -31,11 +31,7 @@ export async function addStop(name: string): Promise<number>{
         if(response == undefined){
             return 201;
         }else{
-            console.log("ERROR database:" + response.hint)
-            console.log("ERROR database:" + response.cause)
-            console.log("ERROR database:" + response.code)
-            console.log("ERROR database:" + response.message)
-            console.error("ERROR database: " + response);
+            console.error("ERROR database: " + response.message);
             return 400
         }
 
