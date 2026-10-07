@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted,ref,computed } from 'vue';
-import { useStopState } from '../state/stopStates';
+import { useStopState } from "../../state/stopStates";
 const { stops, loading, message, loadStops } = useStopState()
 const input = ref('')
 console.log(stops)
