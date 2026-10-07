@@ -1,7 +1,8 @@
 // this is for register and login routes
 import { Elysia, t } from 'elysia'
 import { PASSWORD_MIN_LENGTH } from '@shared/constants'
-import { getAllStops, getStopById, addStop, updateStop } from '../logic/stopsLogic'
+import { getAllStops, getStopById, addStop, updateStop, deleteStop } from '../logic/stopsLogic'
+import { error } from 'console';
 
 
 
@@ -28,6 +29,22 @@ export const stopsRoutes = new Elysia()
   }, {
     params: t.Object({ id: t.Numeric() }) 
   })
+  
+  .delete("/stops/:id", async ({params, set }) => {
+      const stop = await deleteStop(params.id);
+      if (stop === undefined){
+        set.status = 500;
+        return {error: "failed to delete stop"}
+      }
+      if (stop ===null){
+        set.status = 404
+        return{error:"no stop found by that id "}
+      }
+      set.status = 204
+  },{
+    params:t.Object({id: t.Numeric()})
+  })
+
   
   .post('/stops', async ({ body, set }) => {
     const stop = await addStop(body);

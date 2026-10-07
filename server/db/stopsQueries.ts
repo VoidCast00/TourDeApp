@@ -1,6 +1,7 @@
 import { PostgrestError } from '@supabase/supabase-js';
 import { supabase } from './client'
 import type { StopInput } from '@shared/types';
+import { er } from 'vue-router/dist/index-D7ja2BKs.js';
 
 
 export async function getAllStopsDB() {
@@ -43,5 +44,18 @@ export async function updateStopDB(id:number, stop:StopInput){
   .maybeSingle() //null when no row has this id
 
   if (error){throw error}
+  return data;
+}
+
+
+export async function deleteStopDB(id :number){
+  const{data, error} = await supabase
+  .from("stops")
+  .delete()
+  .eq("id", id)
+  .select()
+  .maybeSingle()
+
+  if (error) {throw error}
   return data;
 }

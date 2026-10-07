@@ -1,6 +1,6 @@
 import { PostgrestError } from '@supabase/supabase-js';
 import { addUserToDB, getUserIdByName, getUserPasswordHash } from '../db/userQueries'
-import { getAllStopsDB, getStopByIdDB, addStopDB, updateStopDB} from '../db/stopsQueries';
+import { getAllStopsDB, getStopByIdDB, addStopDB, updateStopDB, deleteStopDB} from '../db/stopsQueries';
 import type { StopInput } from '@shared/types';
 
 export async function getAllStops(){
@@ -43,3 +43,11 @@ export async function updateStop(id:number, stop:StopInput){
 }
 
 
+export async function deleteStop(id:number){
+    try{
+        return await deleteStopDB(id);
+    }catch(err){
+        console.error("failed to update stop: ", err);
+        return undefined;
+    }
+}
