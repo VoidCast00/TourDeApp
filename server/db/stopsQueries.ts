@@ -1,7 +1,6 @@
 import { PostgrestError } from '@supabase/supabase-js';
 import { supabase } from './client'
 import type { StopInput } from '@shared/types';
-import { er } from 'vue-router/dist/index-D7ja2BKs.js';
 
 
 export async function getAllStopsDB() {

@@ -2,7 +2,6 @@
 import { Elysia, t } from 'elysia'
 import { PASSWORD_MIN_LENGTH } from '@shared/constants'
 import { getAllStops, getStopById, addStop, updateStop, deleteStop } from '../logic/stopsLogic'
-import { error } from 'console';
 
 
 

@@ -47,7 +47,7 @@ export async function deleteStop(id:number){
     try{
         return await deleteStopDB(id);
     }catch(err){
-        console.error("failed to update stop: ", err);
+        console.error("failed to delete stop: ", err);
         return undefined;
     }
 }
