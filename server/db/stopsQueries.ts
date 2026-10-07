@@ -23,11 +23,23 @@ export async function getStopByIdDB(id: number) {
   if (error) { throw error }
   return data;
 }
-//====add later !!! ID position and so on!~!!!!
+//====add later !!! position and so on!~!!!!
 export async function addStopDB(name:string): Promise<PostgrestError|void> {
   const { error } = await supabase
     .from("stops")
-    .insert({name: name})
+    .insert({name: name, x: 10, y:10})
 
   if (error) { return error }
+}
+
+export async function updateStopDB(id:number, name:String){
+  const {data, error} = await supabase
+  .from("stops")
+  .update({name: name})
+  .eq("id",id)
+  .select()
+  .maybeSingle()
+
+  if (error){throw error}
+  return data
 }
