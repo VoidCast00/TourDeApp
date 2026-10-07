@@ -1,6 +1,22 @@
 <script setup lang="ts">
-import { onMounted,ref,computed } from 'vue';
-import { useStopState } from '../state/stopStates';
+import { ref } from 'vue'
+import { addStop } from '@/api/stopsApi'
+
+const name = ref('')
+const messageReport = ref('')
+
+async function submit() {
+    try {
+        await addStop(name.value)
+        messageReport.value = "stop added"
+        name.value = ''
+    } catch (err) {
+        console.error("failed to add stop: ", err)
+        messageReport.value = "could not add stop"
+    }
+}
+import { onMounted,computed } from 'vue';
+import { useStopState } from "../../state/stopStates";
 const { stops, loading, message, loadStops } = useStopState()
 const input = ref('')
 console.log(stops)
@@ -21,9 +37,15 @@ const filteredStops = computed(() =>{
 </script>
 
 <template>
+<form @submit.prevent="submit">
+    <input v-model="name" placeholder="stop name" required>
+    <button type="submit">Create new stop</button>
+    <p>{{ message }}</p>
+</form>
+
 <input placeholder="search for stop" v-model="input"/>
 <p v-if="loading">loading stops...</p>
-<p v-else-if="message">{{ message }}</p>
+<p v-else-if="messageReport">{{ messageReport }}</p>
 <p v-else-if="filteredStops.length === 0">there are no stops yet</p>
 <ul v-else>
     <li v-for="stop in filteredStops" :key="stop.id">
@@ -36,6 +58,7 @@ const filteredStops = computed(() =>{
              loading="lazy"
              width="300" height="300">
         </RouterLink>
+        <button>X</button>
     </li>
 </ul>
 </template>
