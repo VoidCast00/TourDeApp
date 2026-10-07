@@ -12,14 +12,14 @@ export async function addUser(name: string, password: string): Promise<number> {
   if (response == undefined) {
     return 201;
   } else {
-    console.log("ERROR database:" + response)
+    console.log("ERROR database:" + response.message)
+
     return 400
   }
 }
 
 
 
-// returns the http status code
 export async function loginUser(name: string, password: string): Promise<number> {
   const userID: string | void = await getUserIdByName(name);
   console.log(userID)

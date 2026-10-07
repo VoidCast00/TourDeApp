@@ -3,7 +3,7 @@ import { supabase } from './client'
 
 
 
-export async function getAllStops() {
+export async function getAllStopsDB() {
   const { data, error } = await supabase
     .from("stops")
     .select("*")
@@ -13,7 +13,7 @@ export async function getAllStops() {
   return data;
 }
 
-export async function getStopById(id: number) {
+export async function getStopByIdDB(id: number) {
   const { data, error } = await supabase
     .from("stops")
     .select("*")
@@ -22,4 +22,12 @@ export async function getStopById(id: number) {
 
   if (error) { throw error }
   return data;
+}
+//====add later !!! ID position and so on!~!!!!
+export async function addStopDB(name:string): Promise<PostgrestError|void> {
+  const { error } = await supabase
+    .from("stops")
+    .insert({name: name})
+
+  if (error) { return error }
 }
