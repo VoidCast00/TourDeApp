@@ -5,16 +5,7 @@ import { addStop } from '@/api/stopsApi'
 const name = ref('')
 const messageReport = ref('')
 
-async function submit() {
-    try {
-        await addStop(name.value)
-        messageReport.value = "stop added"
-        name.value = ''
-    } catch (err) {
-        console.error("failed to add stop: ", err)
-        messageReport.value = "could not add stop"
-    }
-}
+
 import { onMounted,computed } from 'vue';
 import { useStopState } from "../../state/stopStates";
 const { stops, loading, message, loadStops } = useStopState()
@@ -37,11 +28,7 @@ const filteredStops = computed(() =>{
 </script>
 
 <template>
-<form @submit.prevent="submit">
-    <input v-model="name" placeholder="stop name" required>
-    <button type="submit">Create new stop</button>
-    <p>{{ message }}</p>
-</form>
+
 
 <input placeholder="search for stop" v-model="input"/>
 <p v-if="loading">loading stops...</p>
