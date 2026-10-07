@@ -1,7 +1,7 @@
 import { PostgrestError } from '@supabase/supabase-js';
 import { addUserToDB, getUserIdByName, getUserPasswordHash } from '../db/userQueries'
-import { getAllStopsDB, getStopByIdDB, addStopDB} from '../db/stopsQueries';
-import { er } from 'vue-router/dist/index-D7ja2BKs.js';
+import { getAllStopsDB, getStopByIdDB, addStopDB, updateStopDB} from '../db/stopsQueries';
+import type { StopInput } from '@shared/types';
 
 export async function getAllStops(){
     try{
@@ -22,24 +22,24 @@ export async function getStopById(id: number){
     }
 }
 
-// returns the http status code
-
-export async function addStop(name: string): Promise<number>{
+// returns the new stop or undefined if the db call failed
+export async function addStop(stop:StopInput){
     try{
-        const response : PostgrestError | void =  await addStopDB(name);
-        
-        if(response == undefined){
-            return 201;
-        }else{
-            console.error("ERROR database: " + response.message);
-            return 400
-        }
-
+        return await addStopDB(stop);
     }catch(err){
-        console.error("failed to get stop: ", err);        
-        return 400;
+        console.error("failed to add stop: ", err);
+        return undefined;
     }
 }
 
+// returns the updated stop, null if it doesn't exist or undefined if the db call failed
+export async function updateStop(id:number, stop:StopInput){
+    try{
+        return await updateStopDB(id, stop);
+    }catch(err){
+        console.error("failed to update stop: ", err);
+        return undefined;
+    }
+}
 
 

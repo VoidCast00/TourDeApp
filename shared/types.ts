@@ -20,3 +20,6 @@ export type Stop = {
     image_url: string | null,
 }
 
+// a stop without its id the id comes from the url
+export type StopInput = Omit<Stop, 'id'>
+

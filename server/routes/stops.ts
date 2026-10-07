@@ -1,7 +1,9 @@
 // this is for register and login routes
 import { Elysia, t } from 'elysia'
 import { PASSWORD_MIN_LENGTH } from '@shared/constants'
-import { getAllStops, getStopById, addStop } from '../logic/stopsLogic'
+import { getAllStops, getStopById, addStop, updateStop } from '../logic/stopsLogic'
+
+
 
 export const stopsRoutes = new Elysia()
   .get("/stops", async ({ set }) => {
@@ -28,11 +30,55 @@ export const stopsRoutes = new Elysia()
   })
   
   .post('/stops', async ({ body, set }) => {
-    set.status = await addStop(body.name)
-    return
+    const stop = await addStop(body);
+    if (stop === undefined){
+        set.status = 500
+        return{error:"failed to add stop"}
+    }
+    set.status = 201
+    return stop;
   }, {
     body: t.Object({
       name: t.String(),
+      lines: t.String(),
+      is_transfer: t.Boolean(),
+      transfer_lines: t.Nullable(t.String()),
+      x: t.Number(),
+      y: t.Number(),
+      wheelchair_accessible: t.Boolean(),
+      has_shelter: t.Boolean(),
+      has_bench: t.Boolean(),
+      has_ticket_machine: t.Boolean(),
+      has_display: t.Boolean(),
+      image_url: t.Nullable(t.String()),
     })
   })
-  
+
+  .put("/stops/:id", async ({ params, body, set }) => {
+  const stop = await updateStop(params.id, body);
+  if (stop === undefined){
+      set.status = 500
+      return{error:"failed to update stop"}
+  }
+  if (stop === null){
+      set.status = 404
+      return{error:"stop not found"}
+  }
+  return stop;
+  }, {
+    params: t.Object({ id: t.Numeric() }),
+    body: t.Object({
+      name: t.String(),
+      lines: t.String(),
+      is_transfer: t.Boolean(),
+      transfer_lines: t.Nullable(t.String()),
+      x: t.Number(),
+      y: t.Number(),
+      wheelchair_accessible: t.Boolean(),
+      has_shelter: t.Boolean(),
+      has_bench: t.Boolean(),
+      has_ticket_machine: t.Boolean(),
+      has_display: t.Boolean(),
+      image_url: t.Nullable(t.String()),
+    })
+  })

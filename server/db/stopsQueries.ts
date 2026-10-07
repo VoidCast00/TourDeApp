@@ -1,6 +1,6 @@
 import { PostgrestError } from '@supabase/supabase-js';
 import { supabase } from './client'
-
+import type { StopInput } from '@shared/types';
 
 
 export async function getAllStopsDB() {
@@ -23,23 +23,25 @@ export async function getStopByIdDB(id: number) {
   if (error) { throw error }
   return data;
 }
-//====add later !!! position and so on!~!!!!
-export async function addStopDB(name:string): Promise<PostgrestError|void> {
-  const { error } = await supabase
+export async function addStopDB(stop:StopInput){
+  const { data, error } = await supabase
     .from("stops")
-    .insert({name: name, x: 10, y:10})
+    .insert(stop)
+    .select()
+    .single() //insert always makes exactly one row
 
-  if (error) { return error }
+  if (error) { throw error }
+  return data;
 }
 
-export async function updateStopDB(id:number, name:String){
+export async function updateStopDB(id:number, stop:StopInput){
   const {data, error} = await supabase
   .from("stops")
-  .update({name: name})
+  .update(stop)
   .eq("id",id)
   .select()
-  .maybeSingle()
+  .maybeSingle() //null when no row has this id
 
   if (error){throw error}
-  return data
+  return data;
 }
