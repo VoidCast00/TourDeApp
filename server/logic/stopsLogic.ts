@@ -1,7 +1,7 @@
 import { PostgrestError } from '@supabase/supabase-js';
 import { addUserToDB, getUserIdByName, getUserPasswordHash } from '../db/userQueries'
 import { getAllStopsDB, getStopByIdDB, addStopDB, updateStopDB, deleteStopDB} from '../db/stopsQueries';
-import type { NewStop } from '../schema/stops'
+import type { NewStop } from '../schemas/stopsSchema'
 
 export async function getAllStops(){
     try{

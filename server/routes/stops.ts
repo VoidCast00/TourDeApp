@@ -2,8 +2,7 @@
 import { Elysia, t } from 'elysia'
 import { PASSWORD_MIN_LENGTH } from '@shared/constants'
 import { getAllStops, getStopById, addStop, updateStop, deleteStop } from '../logic/stopsLogic'
-
-import { stopBody } from '../schema/stops'
+import { stopBody, stopIdParams } from '../schemas/stopsSchema'
 
 export const stopsRoutes = new Elysia()
   .get("/stops", async ({ set }) => {
@@ -26,7 +25,7 @@ export const stopsRoutes = new Elysia()
     }
     return stop;
   }, {
-    params: t.Object({ id: t.Numeric() }) 
+    params: stopIdParams
   })
   
   .delete("/stops/:id", async ({params, set }) => {
@@ -42,7 +41,7 @@ export const stopsRoutes = new Elysia()
       set.status = 204
       console.log(stop)
   },{
-    params:t.Object({id: t.Numeric()})
+    params:stopIdParams
   })
 
   
@@ -70,6 +69,6 @@ export const stopsRoutes = new Elysia()
   }
   return stop;
   }, {
-    params: t.Object({ id: t.Numeric() }),
+    params:stopIdParams,
     body: stopBody,
   })
