@@ -8,10 +8,10 @@ export const stopBody = t.Object({
   transfer_lines: t.Optional(t.Nullable(t.String({maxLength: 255}))),
   x: t.Optional(t.Number()),
   y: t.Optional(t.Number()),
-  wheelchair_accessible: t.Optional(t.Boolean()),
-  has_shelter: t.Optional(t.Boolean()),
+  wheelchair_accessible: t.Boolean(),
+  has_shelter: t.Boolean(),
   has_bench: t.Optional(t.Boolean()),
-  has_ticket_machine: t.Optional(t.Boolean()),
+  has_ticket_machine: t.Boolean(),
   has_display: t.Optional(t.Boolean()),
   image_url: t.Optional(t.Nullable(t.String({maxLength:255}))),
 })
