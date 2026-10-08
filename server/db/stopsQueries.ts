@@ -1,6 +1,7 @@
 import { PostgrestError } from '@supabase/supabase-js';
 import { supabase } from './client'
 import type { StopInput } from '@shared/types';
+import type { NewStop } from '../schema/stops'
 
 
 export async function getAllStopsDB() {
@@ -23,7 +24,7 @@ export async function getStopByIdDB(id: number) {
   if (error) { throw error }
   return data;
 }
-export async function addStopDB(stop:StopInput){
+export async function addStopDB(stop:NewStop){
   const { data, error } = await supabase
     .from("stops")
     .insert(stop)
@@ -34,7 +35,7 @@ export async function addStopDB(stop:StopInput){
   return data;
 }
 
-export async function updateStopDB(id:number, stop:StopInput){
+export async function updateStopDB(id:number, stop:NewStop){
   const {data, error} = await supabase
   .from("stops")
   .update(stop)
