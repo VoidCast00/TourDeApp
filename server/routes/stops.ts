@@ -40,6 +40,7 @@ export const stopsRoutes = new Elysia()
         return{error:"no stop found by that id "}
       }
       set.status = 204
+      console.log(stop)
   },{
     params:t.Object({id: t.Numeric()})
   })

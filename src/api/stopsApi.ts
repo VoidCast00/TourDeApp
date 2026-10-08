@@ -27,3 +27,14 @@ export async function addStop(stop: StopInput): Promise<Stop> {
   if (!response.ok) { throw new Error(response.status.toString()) }
   return await response.json();
 }
+  
+  
+
+export async function deleteStop(id: number) {
+  const response = await fetch(`/api/v1/stops/${id}`,{
+    method: "DELETE",
+  });
+  
+  if (!response.ok) { throw new Error(response.status.toString()) }
+}
+

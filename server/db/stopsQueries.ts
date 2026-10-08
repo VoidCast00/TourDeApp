@@ -56,5 +56,6 @@ export async function deleteStopDB(id :number){
   .maybeSingle()
 
   if (error) {throw error}
+  
   return data;
 }

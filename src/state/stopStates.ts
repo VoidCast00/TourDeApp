@@ -1,7 +1,7 @@
 //this is the vue state + logic for stops (components that show stops access this)
 import { ref } from 'vue'
 import type { Stop, StopInput } from '@shared/types'
-import { fetchStops, addStop } from '@/api/stopsApi'
+import { fetchStops, addStop, deleteStop } from '@/api/stopsApi'
 
 const stops = ref<Stop[]>([])
 const message = ref('') // feedback line when loading fails
@@ -44,7 +44,17 @@ async function addNewStop() {
   }
 }
 
+async function deleteTargetedStop(id: number) {
+  try {
+    await deleteStop(id)
+    await loadStops() // so the list shows the new stop
+  } catch (err) {
+    console.error("failed to delete stop: ", err)
+    addMessage.value = "could not delete stop"
+  }
+}
+
 //esier exports of functions and variables
 export function useStopState() {
-  return { stops, loading, message, loadStops, newStop, addMessage, addNewStop }
+  return { stops, loading, message, loadStops, newStop, addMessage, addNewStop, deleteTargetedStop }
 }
