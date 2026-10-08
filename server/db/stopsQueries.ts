@@ -1,7 +1,7 @@
 import { PostgrestError } from '@supabase/supabase-js';
 import { supabase } from './client'
 import type { StopInput } from '@shared/types';
-import type { NewStop } from '../schema/stops'
+import type { NewStop,  } from '../schemas/stopsSchema'
 
 
 export async function getAllStopsDB() {
