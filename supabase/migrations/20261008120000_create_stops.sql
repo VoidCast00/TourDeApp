@@ -5,8 +5,8 @@ create table if not exists public.stops (
   lines                 varchar(255) not null default '', -- lines serving the stop, as "A;B"
   is_transfer           boolean not null default false,
   transfer_lines        varchar(255),                     -- lines you can transfer to, as "A;B"
-  x                     double precision not null,        -- horizontal position
-  y                     double precision not null,        -- vertical position
+  x                     double precision not null default 0, -- horizontal position
+  y                     double precision not null default 0, -- vertical position
   wheelchair_accessible boolean not null default false,   -- step-free
   has_shelter           boolean not null default false,
   has_bench             boolean not null default false,

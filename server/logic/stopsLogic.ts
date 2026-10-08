@@ -1,7 +1,7 @@
 import { PostgrestError } from '@supabase/supabase-js';
 import { addUserToDB, getUserIdByName, getUserPasswordHash } from '../db/userQueries'
 import { getAllStopsDB, getStopByIdDB, addStopDB, updateStopDB, deleteStopDB} from '../db/stopsQueries';
-import type { StopInput } from '@shared/types';
+import type { NewStop } from '../schema/stops'
 
 export async function getAllStops(){
     try{
@@ -23,7 +23,7 @@ export async function getStopById(id: number){
 }
 
 // returns the new stop or undefined if the db call failed
-export async function addStop(stop:StopInput){
+export async function addStop(stop:NewStop){
     try{
         return await addStopDB(stop);
     }catch(err){
@@ -33,7 +33,7 @@ export async function addStop(stop:StopInput){
 }
 
 // returns the updated stop, null if it doesn't exist or undefined if the db call failed
-export async function updateStop(id:number, stop:StopInput){
+export async function updateStop(id:number, stop:NewStop){
     try{
         return await updateStopDB(id, stop);
     }catch(err){
