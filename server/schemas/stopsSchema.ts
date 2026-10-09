@@ -1,8 +1,9 @@
 import { t } from 'elysia'
+import { url } from 'inspector'
 
 // what a client may send to create or update a stop, only name is required
 export const stopBody = t.Object({
-  name: t.String({maxLength:255, minLength:3}),
+  name: t.String({maxLength:255, minLength:1}),
   lines: t.Optional(t.String({maxLength:255})),
   is_transfer: t.Optional(t.Boolean()),
   transfer_lines: t.Optional(t.Nullable(t.String({maxLength: 255}))),
@@ -13,7 +14,7 @@ export const stopBody = t.Object({
   has_bench: t.Optional(t.Boolean()),
   has_ticket_machine: t.Boolean(),
   has_display: t.Optional(t.Boolean()),
-  image_url: t.Optional(t.Nullable(t.String({maxLength:255}))),
+  image_url: t.Optional(t.Nullable(t.String({maxLength:255, format:'uri'}))),
 })
 
 

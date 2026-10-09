@@ -72,3 +72,10 @@ export const stopsRoutes = new Elysia()
     params:stopIdParams,
     body: stopBody,
   })
+  //400 instead of 422
+  .onError(({code ,set}) =>{
+    if (code === "VALIDATION"){
+      set.status = 400;
+      return {error: "invalid imput"}
+    }
+  })

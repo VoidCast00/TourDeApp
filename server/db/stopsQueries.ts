@@ -38,7 +38,7 @@ export async function addStopDB(stop:NewStop){
 export async function updateStopDB(id:number, stop:NewStop){
   const {data, error} = await supabase
   .from("stops")
-  .update(stop)
+  .update({ image_url: null, ...stop }) //PUT replaces so a missing image_url resets to null
   .eq("id",id)
   .select()
   .maybeSingle() //null when no row has this id
