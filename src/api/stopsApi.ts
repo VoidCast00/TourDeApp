@@ -38,3 +38,11 @@ export async function deleteStop(id: number) {
   if (!response.ok) { throw new Error(response.status.toString()) }
 }
 
+export async function updateStop(id: number) {
+  const response = await fetch(`/api/v1/stops/${id}`,{
+    method: "",
+  });
+  
+  if (!response.ok) { throw new Error(response.status.toString()) }
+}
+

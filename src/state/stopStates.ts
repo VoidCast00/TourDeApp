@@ -54,7 +54,17 @@ async function deleteTargetedStop(id: number) {
   }
 }
 
+async function updateStop(id: number){
+  try {
+    await updateStop(id)
+    await loadStops() // so the list shows the new stop
+  } catch (err) {
+    console.error("failed to delete stop: ", err)
+    addMessage.value = "could not delete stop"
+  }
+}
+
 //esier exports of functions and variables
 export function useStopState() {
-  return { stops, loading, message, loadStops, newStop, addMessage, addNewStop, deleteTargetedStop }
+  return { stops, loading, message, loadStops, newStop, addMessage, addNewStop, deleteTargetedStop, updateStop }
 }

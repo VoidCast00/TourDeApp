@@ -1,4 +1,10 @@
 <script setup lang="ts">
+
+import { computed } from 'vue';
+import { useStopState } from "../../state/stopStates";
+const { stops, loading, message, loadStops, newStop, addMessage, addNewStop, deleteTargetedStop, updateStop } = useStopState()
+const input = ref('')
+console.log(stops)
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import type { Stop } from '@shared/types'
@@ -6,14 +12,14 @@ import { fetchStop } from '@/api/stopsApi'
 
 const route = useRoute()
 const stop = ref<Stop | null>(null)
-const message = ref('')
+const messageError = ref('')
 
 onMounted(async () => {
     try {
         stop.value = await fetchStop(Number(route.params.id))
     } catch (err) {
         console.error("failed to get stop: ", err)
-        message.value = "could not load this stop"
+        messageError.value = "could not load this stop"
     }
 })
 </script>
@@ -23,7 +29,7 @@ onMounted(async () => {
         
     
 <RouterLink to="/stops">back to all stops</RouterLink>
-<p v-if="message">{{ message }}</p>
+<p v-if="messageError">{{ messageError }}</p>
 <div v-else-if="stop">
     
     <h1>{{ stop.name }}</h1>
@@ -47,5 +53,28 @@ onMounted(async () => {
 
 </div>
 <p v-else>loading...</p>
+
+<div>
+<form @submit.prevent="addNewStop">
+    <input v-if="stop" v-model="stop.name" placeholder="stop name" required><br>
+    <input v-if="stop" v-model="stop.lines" placeholder="lines (A;B)"><br>
+    <input v-if="stop" v-model="stop.transfer_lines" placeholder="transfer lines (A;B)"><br>
+    <input v-if="stop" v-model.number="stop.x" type="number" placeholder="x"><br>
+    <input v-if="stop" v-model.number="stop.y" type="number" placeholder="y"><br>
+    <input v-if="stop" v-model="stop.image_url" placeholder="image url"><br>
+    
+    <label><input v-if="stop" v-model="stop.is_transfer" type="checkbox"> transfer</label><br>
+    
+    <label><input v-if="stop" v-model="stop.wheelchair_accessible" type="checkbox"> wheelchair</label><br>
+    
+    <label><input v-if="stop" v-model="stop.has_shelter" type="checkbox"> shelter</label><br>
+    <label><input v-if="stop" v-model="stop.has_bench" type="checkbox"> bench</label><br>
+    <label><input v-if="stop" v-model="stop.has_ticket_machine" type="checkbox"> ticket machine</label><br>
+    <label><input v-if="stop" v-model="stop.has_display" type="checkbox"> display</label><br>
+
+    <button type="submit">add stop</button>
+    <p>{{ addMessage }}</p>
+</form>
+</div>
 </body>
 </template>
