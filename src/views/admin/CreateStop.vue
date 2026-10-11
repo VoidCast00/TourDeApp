@@ -47,6 +47,20 @@ console.log(stops)
     justify-content: center;
     align-items: center;
     
+    
+}
+form{
+    border: 5px solid black;
+    margin:10px;
+    padding: 10px;
+    background-color: aqua;
+}
+button{
+    border: 2px solid black;
+    
+}
+input{
+    justify-content: space-evenly;
 }
 
 </style>

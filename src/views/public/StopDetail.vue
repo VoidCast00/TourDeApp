@@ -37,24 +37,30 @@ onMounted(async () => {
     
     <p>lines: {{ stop.lines }}</p>
     
-        
+    <h3>Stop propeties:</h3>  
+    <ul>
+        <li>
     <p v-if="stop.has_shelter">Stop has shelter</p>
     <p v-else>Stop has not shelter</p>
+        </li><li>
     
     <p v-if="stop.has_ticket_machine">Stop has ticket machine</p>
     <p v-else>Stop has not ticket machine</p>
+        </li><li>
     
     <p v-if="stop.has_bench">Stop has bench</p>
     <p v-else>Stop has not bench</p>
-    
+        </li><li>
     <p v-if="stop.wheelchair_accessible">Stop is wheelchair accessible</p>
     <p v-else>Stop is not wheelchair accessible</p>
+        </li>
+    </ul> 
     
 
 </div>
 <p v-else>loading...</p>
 
-<div>
+<div class="flex2">
 <form @submit.prevent="addNewStop">
     <input v-if="stop" v-model="stop.name" placeholder="stop name" required><br>
     <input v-if="stop" v-model="stop.lines" placeholder="lines (A;B)"><br>
@@ -78,3 +84,25 @@ onMounted(async () => {
 </div>
 </body>
 </template>
+<style>
+.flex2{
+    display:flex;
+    
+    
+    
+    
+}
+form{
+    border: 5px solid black;
+    margin:10px;
+    padding: 10px;
+    background-color: aqua;
+}
+button{
+    border: 2px solid black;
+    
+}
+input{
+    justify-content: space-evenly;
+}
+</style>
