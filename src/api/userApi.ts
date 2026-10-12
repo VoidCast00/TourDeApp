@@ -30,3 +30,4 @@ export async function loginUser(name: string, password: string): Promise<boolean
   const error = await response.json();
   throw new Error(error.error)
 }
+

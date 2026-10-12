@@ -38,11 +38,17 @@ export async function deleteStop(id: number) {
   if (!response.ok) { throw new Error(response.status.toString()) }
 }
 
-export async function updateStop(id: number) {
-  const response = await fetch(`/api/v1/stops/${id}`,{
-    method: "",
+export async function updateStop(id: number, stop: StopInput): Promise<Stop> {
+  const response = await fetch(`/api/v1/stops/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ...stop,
+      transfer_lines: stop.transfer_lines || null,
+      image_url: stop.image_url || null,
+    }),
   });
-  
   if (!response.ok) { throw new Error(response.status.toString()) }
+  return await response.json();
 }
 
