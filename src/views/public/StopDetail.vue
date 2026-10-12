@@ -37,44 +37,90 @@ onMounted(async () => {
     
     <p>lines: {{ stop.lines }}</p>
     
-        
+    <h3>Stop propeties:</h3>  
+    <ul>
+        <li>
     <p v-if="stop.has_shelter">Stop has shelter</p>
     <p v-else>Stop has not shelter</p>
+        </li><li>
     
     <p v-if="stop.has_ticket_machine">Stop has ticket machine</p>
     <p v-else>Stop has not ticket machine</p>
+        </li><li>
     
     <p v-if="stop.has_bench">Stop has bench</p>
     <p v-else>Stop has not bench</p>
-    
+        </li><li>
     <p v-if="stop.wheelchair_accessible">Stop is wheelchair accessible</p>
     <p v-else>Stop is not wheelchair accessible</p>
+        </li>
+    </ul> 
     
 
 </div>
 <p v-else>loading...</p>
 
-<div>
-<form @submit.prevent="addNewStop">
-    <input v-if="stop" v-model="stop.name" placeholder="stop name" required><br>
-    <input v-if="stop" v-model="stop.lines" placeholder="lines (A;B)"><br>
-    <input v-if="stop" v-model="stop.transfer_lines" placeholder="transfer lines (A;B)"><br>
-    <input v-if="stop" v-model.number="stop.x" type="number" placeholder="x"><br>
-    <input v-if="stop" v-model.number="stop.y" type="number" placeholder="y"><br>
-    <input v-if="stop" v-model="stop.image_url" placeholder="image url"><br>
+<div class="formLayout">
+<form>
+    <div>
+    <div class="textInputs">
+    <input v-if="stop" v-model="stop.name" placeholder="stop name" required>
+    <input v-if="stop" v-model="stop.lines" placeholder="lines (A;B)">
+    <input v-if="stop" v-model="stop.transfer_lines" placeholder="transfer lines (A;B)">
+    <input v-if="stop" v-model.number="stop.x" type="number" placeholder="x">
+    <input v-if="stop" v-model.number="stop.y" type="number" placeholder="y">
+    <input v-if="stop" v-model="stop.image_url" placeholder="image url">
+    </div>
     
-    <label><input v-if="stop" v-model="stop.is_transfer" type="checkbox"> transfer</label><br>
-    
-    <label><input v-if="stop" v-model="stop.wheelchair_accessible" type="checkbox"> wheelchair</label><br>
-    
-    <label><input v-if="stop" v-model="stop.has_shelter" type="checkbox"> shelter</label><br>
-    <label><input v-if="stop" v-model="stop.has_bench" type="checkbox"> bench</label><br>
-    <label><input v-if="stop" v-model="stop.has_ticket_machine" type="checkbox"> ticket machine</label><br>
-    <label><input v-if="stop" v-model="stop.has_display" type="checkbox"> display</label><br>
 
+    <div class="inputLabels">
+    <label><input v-if="stop" v-model="stop.is_transfer" type="checkbox"> transfer</label>
+    
+    <label><input v-if="stop" v-model="stop.wheelchair_accessible" type="checkbox"> wheelchair</label>
+    
+    <label><input v-if="stop" v-model="stop.has_shelter" type="checkbox"> shelter</label>
+    <label><input v-if="stop" v-model="stop.has_bench" type="checkbox"> bench</label>
+    <label><input v-if="stop" v-model="stop.has_ticket_machine" type="checkbox"> ticket machine</label>
+    <label><input v-if="stop" v-model="stop.has_display" type="checkbox"> display</label>
+    </div>
+    
+    <div class="buttonContent">
     <button type="submit">add stop</button>
     <p>{{ addMessage }}</p>
+    </div>
+    
+    </div>
+    
 </form>
 </div>
 </body>
 </template>
+<style scoped>
+.formLayout{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.buttonContent{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+button{
+    border: 2px solid #1A1A1A;
+    border-radius: 5px 5px 5px 5px;
+    background-color:#FFFFFF;
+}
+.inputLabels{
+  display: flex;
+  flex-direction: column;
+}
+form{
+    
+}
+.textInputs{
+  display:flex;
+  flex-direction: column;
+}
+</style>
