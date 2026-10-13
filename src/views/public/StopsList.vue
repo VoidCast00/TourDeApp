@@ -81,7 +81,4 @@ img{
     margin: 1%;
 }
 
-
-
-
 </style>
