@@ -5,7 +5,6 @@ const { stops, loading, message, loadStops } = useStopState()
 const input = ref('')
 console.log(stops)
 
-
 onMounted(() => {
     loadStops()
     
@@ -32,7 +31,7 @@ const filteredStops = computed(() =>{
 <div class="grid" v-else>
     <div v-for="stop in filteredStops" :key="stop.id" >
         <RouterLink class="stop" :to="{ name: 'Detail', params: { id: stop.id } }">
-            <h2>{{ stop.name }}</h2>
+            <h2 class="text">{{ stop.name }}</h2>
             <img
              v-if="stop.image_url"
              :src="stop.image_url"
@@ -46,39 +45,43 @@ const filteredStops = computed(() =>{
 </body>
 </template>
 <style scoped>
+
 .stop{
-    
     display:flex;
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
     text-decoration: none;
     color: black;
-    border: 2px solid  #0257A5;
-    border-radius: 50px;
+    border: 2px solid  #6DD4B1;
+    border-radius: 30px;
     padding: 3%;
     margin: 2%;
-    background-color: #0257A5;
-    
-    
-    
+    background-color: #6DD4B1;
 }
+
 .content{
     display:flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    
-    
-    
+    border: 2px solid  #0257A5;
+    border-radius: 30px;
+    background-color: #0257A5;
 }
+
 img{
  width: 50%;
  height: auto;
- border-radius: 50px;
+ border-radius: 30px;
 }
+
 .grid{   
     margin: 1%;
+}
+
+.text{
+    font-size: clamp(1.3em, 2.5vw, 2.25rem);
 }
 
 </style>
