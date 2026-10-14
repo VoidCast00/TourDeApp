@@ -49,3 +49,5 @@ __screenshots__/
 supabase/.temp/
 supabase/.branches/
 supabase/.env
+
+.claude

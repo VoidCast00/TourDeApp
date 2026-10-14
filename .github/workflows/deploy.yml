@@ -39,5 +39,6 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
           VITE_JWT_SECRET: ${{secrets.JWT_SECRET}}
+          VITE_BETTER_AUTH_SECRET: ${{secrets.BETTER_AUTH_SECRET}}
         with:
           tdc_token: ${{ secrets.TDC_TOKEN }}
