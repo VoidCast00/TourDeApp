@@ -17,7 +17,6 @@ export async function addStop(stop: StopInput): Promise<Stop> {
   const response = await fetch("/api/v1/stops", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    // empty text inputs should be saved as null, not ""
     body: JSON.stringify({
       ...stop,
       transfer_lines: stop.transfer_lines || null,
@@ -27,7 +26,6 @@ export async function addStop(stop: StopInput): Promise<Stop> {
   if (!response.ok) { throw new Error(response.status.toString()) }
   return await response.json();
 }
-  
   
 
 export async function deleteStop(id: number) {

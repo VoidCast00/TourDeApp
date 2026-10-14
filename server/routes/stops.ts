@@ -1,10 +1,12 @@
-// this is for register and login routes
-import { Elysia, t } from 'elysia'
-import { PASSWORD_MIN_LENGTH } from '@shared/constants'
+import { Elysia, status, t } from 'elysia'
 import { getAllStops, getStopById, addStop, updateStop, deleteStop } from '../logic/stopsLogic'
 import { stopBody, stopIdParams } from '../schemas/stopsSchema'
+import { bearer } from '@elysia/bearer'
+import { AUTH_KEY } from '../config'
+import { error } from 'console'
 
 export const stopsRoutes = new Elysia()
+  .use(bearer())
   //400 instead of 422
   .onError(({code ,set}) =>{
     if (code === "VALIDATION"){
@@ -35,7 +37,10 @@ export const stopsRoutes = new Elysia()
     params: stopIdParams
   })
   
-  .delete("/stops/:id", async ({params, set }) => {
+  .delete("/stops/:id", async ({bearer,params, set }) => {
+    if (bearer != AUTH_KEY){
+      throw status(401, {error : "bad autentification"})
+    }
       const stop = await deleteStop(params.id);
       if (stop === undefined){
         set.status = 500;
@@ -46,13 +51,15 @@ export const stopsRoutes = new Elysia()
         return{error:"no stop found by that id "}
       }
       set.status = 204
-      console.log(stop)
   },{
     params:stopIdParams
   })
 
   
-  .post('/stops', async ({ body, set }) => {
+  .post('/stops', async ({bearer, body, set }) => {
+    if (bearer != AUTH_KEY){
+      throw status(401, {error : "bad autentification"})
+    }
     const stop = await addStop(body);
     if (stop === undefined){
         set.status = 500
@@ -64,19 +71,22 @@ export const stopsRoutes = new Elysia()
     body: stopBody,
   })
 
-  .put("/stops/:id", async ({ params, body, set }) => {
-  const stop = await updateStop(params.id, body);
-  if (stop === undefined){
-      set.status = 500
-      return{error:"failed to update stop"}
-  }
-  if (stop === null){
-      set.status = 404
-      return{error:"stop not found"}
-  }
-  return stop;
-  }, {
-    params:stopIdParams,
-    body: stopBody,
-  })
+  .put("/stops/:id", async ({bearer, params, body, set }) => {
+    if (bearer != AUTH_KEY){
+      throw status(401, {error : "bad autentification"})
+    }
+    const stop = await updateStop(params.id, body);
+    if (stop === undefined){
+        set.status = 500
+        return{error:"failed to update stop"}
+    }
+    if (stop === null){
+        set.status = 404
+        return{error:"stop not found"}
+    }
+    return stop;
+    }, {
+      params:stopIdParams,
+      body: stopBody,
+    })
 

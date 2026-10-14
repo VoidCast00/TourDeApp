@@ -2,6 +2,7 @@ import { PostgrestError } from '@supabase/supabase-js';
 import { supabase } from './client'
 import type { StopInput } from '@shared/types';
 import type { NewStop,  } from '../schemas/stopsSchema'
+import { bearer } from '@elysia/bearer'
 
 
 export async function getAllStopsDB() {
