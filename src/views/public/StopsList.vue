@@ -20,11 +20,14 @@ const filteredStops = computed(() =>{
 </script>
 
 <template>
-    <body>
+<body>
         
     
 <div class="content">
-<input placeholder="search for stop" v-model="input"/>
+    <div class="search">
+<img class="searchIcon" src="/images/icons/search_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"/>
+<input class="searchInput" placeholder="search for stop" v-model="input"/>
+    </div>
 <p v-if="loading">loading stops...</p>
 <p v-else-if="message">{{ message }}</p>
 <p v-else-if="filteredStops.length === 0">there are no stops yet</p>
@@ -32,7 +35,7 @@ const filteredStops = computed(() =>{
     <div v-for="stop in filteredStops" :key="stop.id" >
         <RouterLink class="stop" :to="{ name: 'Detail', params: { id: stop.id } }">
             <h2 class="text">{{ stop.name }}</h2>
-            <img
+            <img class="stopImg"
              v-if="stop.image_url"
              :src="stop.image_url"
              :alt="stop.name"
@@ -43,6 +46,7 @@ const filteredStops = computed(() =>{
 </div>
 </div>
 </body>
+
 </template>
 <style scoped>
 
@@ -53,11 +57,11 @@ const filteredStops = computed(() =>{
     flex-direction: column;
     text-decoration: none;
     color: black;
-    border: 2px solid  #6DD4B1;
-    border-radius: 30px;
-    padding: 3%;
-    margin: 2%;
-    background-color: #6DD4B1;
+    border: 0px solid  #0070BB;
+    border-radius: 20px;
+    padding: 2%;
+    margin: 2% 0% 0% 0%;
+    background-color: #0070BB;
 }
 
 .content{
@@ -65,15 +69,17 @@ const filteredStops = computed(() =>{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border: 2px solid  #0257A5;
-    border-radius: 30px;
+    border: 0px solid  #0257A5;
+    border-radius: 20px;
     background-color: #0257A5;
+    margin: 0%;
 }
 
-img{
- width: 50%;
+.stopImg{
+ width: 35%;
  height: auto;
- border-radius: 30px;
+ border-radius: 0px;
+ 
 }
 
 .grid{   
@@ -81,7 +87,38 @@ img{
 }
 
 .text{
-    font-size: clamp(1.3em, 2.5vw, 2.25rem);
+    font-size: clamp(1em, 2.5vw, 2rem);
+    
 }
+.search{
+    margin-top: 4%;
+    margin-bottom: 1%;
+    display:flex;
+    flex-direction: row;
+    
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding:1%;
+    width: 20%;
+    border-radius: 30px;
+    background: #FFFFFF;
+}
+.searchInput{
+    font-size: clamp(1em, 1.25vw, 1rem);
+
+    
+    outline: none;
+    border: none;
+    background: transparent;
+    
+
+}
+.searchIcon{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+
 
 </style>
