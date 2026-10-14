@@ -5,7 +5,6 @@ const { stops, loading, message, loadStops } = useStopState()
 const input = ref('')
 console.log(stops)
 
-
 onMounted(() => {
     loadStops()
     
@@ -21,22 +20,68 @@ const filteredStops = computed(() =>{
 </script>
 
 <template>
+    <body>
+        
+    
+<div class="content">
 <input placeholder="search for stop" v-model="input"/>
 <p v-if="loading">loading stops...</p>
 <p v-else-if="message">{{ message }}</p>
 <p v-else-if="filteredStops.length === 0">there are no stops yet</p>
-<ul v-else>
-    <div v-for="stop in filteredStops" :key="stop.id">
-        <RouterLink :to="{ name: 'Detail', params: { id: stop.id } }">
-            
-            <h2>{{ stop.name }}</h2>
+<div class="grid" v-else>
+    <div v-for="stop in filteredStops" :key="stop.id" >
+        <RouterLink class="stop" :to="{ name: 'Detail', params: { id: stop.id } }">
+            <h2 class="text">{{ stop.name }}</h2>
             <img
              v-if="stop.image_url"
              :src="stop.image_url"
              :alt="stop.name"
-             loading="lazy"
-             width="300" height="300">
+             loading="lazy">
+             
         </RouterLink>
     </div>
-</ul>
+</div>
+</div>
+</body>
 </template>
+<style scoped>
+
+.stop{
+    display:flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    text-decoration: none;
+    color: black;
+    border: 2px solid  #6DD4B1;
+    border-radius: 30px;
+    padding: 3%;
+    margin: 2%;
+    background-color: #6DD4B1;
+}
+
+.content{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 2px solid  #0257A5;
+    border-radius: 30px;
+    background-color: #0257A5;
+}
+
+img{
+ width: 50%;
+ height: auto;
+ border-radius: 30px;
+}
+
+.grid{   
+    margin: 1%;
+}
+
+.text{
+    font-size: clamp(1.3em, 2.5vw, 2.25rem);
+}
+
+</style>
