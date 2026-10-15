@@ -20,7 +20,7 @@ const filteredStops = computed(() =>{
 </script>
 
 <template>
-<body>
+
         
     
 <div class="content">
@@ -45,7 +45,7 @@ const filteredStops = computed(() =>{
     </div>
 </div>
 </div>
-</body>
+
 
 </template>
 <style scoped>
@@ -57,9 +57,8 @@ const filteredStops = computed(() =>{
     flex-direction: column;
     text-decoration: none;
     color: black;
-    border: 0px solid  #0070BB;
     border-radius: 20px;
-    padding: 2%;
+    padding: 0%;
     margin: 2% 0% 0% 0%;
     background-color: #0070BB;
 }
@@ -69,10 +68,9 @@ const filteredStops = computed(() =>{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border: 0px solid  #0257A5;
     border-radius: 20px;
     background-color: #0257A5;
-    margin: 0%;
+    
 }
 
 .stopImg{
