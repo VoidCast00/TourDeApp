@@ -1,10 +1,4 @@
 <script setup lang="ts">
-
-import { computed } from 'vue';
-import { useStopState } from "../../state/stopStates";
-const { stops, loading, message, loadStops, newStop, addMessage, addNewStop, deleteTargetedStop, updateStop } = useStopState()
-const input = ref('')
-console.log(stops)
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import type { Stop } from '@shared/types'
@@ -25,102 +19,150 @@ onMounted(async () => {
 </script>
 
 <template>
-    <body>
-        
-    
-<RouterLink to="/stops">back to all stops</RouterLink>
-<p v-if="messageError">{{ messageError }}</p>
-<div v-else-if="stop">
-    
-    <h1>{{ stop.name }}</h1>
-    <img v-if="stop.image_url" :src="stop.image_url" :alt="stop.name" width="300" height="300">
-    
-    <p>lines: {{ stop.lines }}</p>
-    
-    <h3>Stop propeties:</h3>  
-    <ul>
-        <li>
-    <p v-if="stop.has_shelter">Stop has shelter</p>
-    <p v-else>Stop has not shelter</p>
-        </li><li>
-    
-    <p v-if="stop.has_ticket_machine">Stop has ticket machine</p>
-    <p v-else>Stop has not ticket machine</p>
-        </li><li>
-    
-    <p v-if="stop.has_bench">Stop has bench</p>
-    <p v-else>Stop has not bench</p>
-        </li><li>
-    <p v-if="stop.wheelchair_accessible">Stop is wheelchair accessible</p>
-    <p v-else>Stop is not wheelchair accessible</p>
-        </li>
-    </ul> 
-    
+<div class="page">
+    <RouterLink to="/stops" class="back-link">← All stops</RouterLink>
 
+    <p v-if="messageError" class="status error">{{ messageError }}</p>
+
+    <div v-else-if="stop">
+        <div class="panel top">
+            <img v-if="stop.image_url" class="photo" :src="stop.image_url" :alt="stop.name">
+            <div v-else class="photo no-photo">No photo</div>
+
+            <div class="info">
+                <h1 class="page-title">{{ stop.name }}</h1>
+
+                <h3>Lines</h3>
+                <div class="lines">
+                    <span v-for="line in stop.lines.split(';')" :key="line" class="line-badge">{{ line }}</span>
+                </div>
+
+                <div v-if="stop.is_transfer && stop.transfer_lines">
+                    <h3>Transfer to</h3>
+                    <div class="lines">
+                        <span v-for="line in stop.transfer_lines.split(';')" :key="line" class="line-badge transfer">{{ line }}</span>
+                    </div>
+                </div>
+
+                <p class="coords">Position: {{ stop.x }}, {{ stop.y }}</p>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h2>Facilities</h2>
+            <ul class="facilities">
+                <li :class="{ yes: stop.wheelchair_accessible }">
+                    <span class="dot"></span> Step-free access
+                    <strong>{{ stop.wheelchair_accessible ? 'Yes' : 'No' }}</strong>
+                </li>
+                <li :class="{ yes: stop.has_shelter }">
+                    <span class="dot"></span> Shelter
+                    <strong>{{ stop.has_shelter ? 'Yes' : 'No' }}</strong>
+                </li>
+                <li :class="{ yes: stop.has_bench }">
+                    <span class="dot"></span> Bench
+                    <strong>{{ stop.has_bench ? 'Yes' : 'No' }}</strong>
+                </li>
+                <li :class="{ yes: stop.has_ticket_machine }">
+                    <span class="dot"></span> Ticket machine
+                    <strong>{{ stop.has_ticket_machine ? 'Yes' : 'No' }}</strong>
+                </li>
+                <li :class="{ yes: stop.has_display }">
+                    <span class="dot"></span> Departure display
+                    <strong>{{ stop.has_display ? 'Yes' : 'No' }}</strong>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <p v-else class="status">Loading...</p>
 </div>
-<p v-else>loading...</p>
-
-<div class="formLayout">
-<form>
-    <div>
-    <div class="textInputs">
-    <input v-if="stop" v-model="stop.name" placeholder="stop name" required>
-    <input v-if="stop" v-model="stop.lines" placeholder="lines (A;B)">
-    <input v-if="stop" v-model="stop.transfer_lines" placeholder="transfer lines (A;B)">
-    <input v-if="stop" v-model.number="stop.x" type="number" placeholder="x">
-    <input v-if="stop" v-model.number="stop.y" type="number" placeholder="y">
-    <input v-if="stop" v-model="stop.image_url" placeholder="image url">
-    </div>
-    
-
-    <div class="inputLabels">
-    <label><input v-if="stop" v-model="stop.is_transfer" type="checkbox"> transfer</label>
-    
-    <label><input v-if="stop" v-model="stop.wheelchair_accessible" type="checkbox"> wheelchair</label>
-    
-    <label><input v-if="stop" v-model="stop.has_shelter" type="checkbox"> shelter</label>
-    <label><input v-if="stop" v-model="stop.has_bench" type="checkbox"> bench</label>
-    <label><input v-if="stop" v-model="stop.has_ticket_machine" type="checkbox"> ticket machine</label>
-    <label><input v-if="stop" v-model="stop.has_display" type="checkbox"> display</label>
-    </div>
-    
-    <div class="buttonContent">
-    <button type="submit">add stop</button>
-    <p>{{ addMessage }}</p>
-    </div>
-    
-    </div>
-    
-</form>
-</div>
-</body>
 </template>
+
 <style scoped>
-.formLayout{
-    display:flex;
+/* photo on the left, info on the right (stacked on phones) */
+.top {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (min-width: 750px) {
+    .top {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.photo {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: var(--radius);
+}
+
+.no-photo {
+    display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: var(--bg);
+    color: var(--text-light);
+    font-weight: 600;
 }
-.buttonContent{
-    display:flex;
-    justify-content: center;
+
+.info h3 {
+    margin: 1.2rem 0 0.5rem;
+    font-size: 1rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.coords {
+    margin: 1.2rem 0 0;
+    color: var(--text-light);
+}
+
+.panel h2 {
+    color: var(--blue-dark);
+}
+
+.facilities {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.facilities li {
+    display: flex;
     align-items: center;
+    gap: 0.7rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--border);
 }
-button{
-    border: 2px solid #1A1A1A;
-    border-radius: 5px 5px 5px 5px;
-    background-color:#FFFFFF;
+
+.facilities li:last-child {
+    border-bottom: none;
 }
-.inputLabels{
-  display: flex;
-  flex-direction: column;
+
+.facilities strong {
+    margin-left: auto; /* pushes Yes/No to the right */
+    color: var(--text-light);
 }
-form{
-    
+
+.dot {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background-color: var(--border);
 }
-.textInputs{
-  display:flex;
-  flex-direction: column;
+
+/* when the stop has the facility, the dot is green */
+.facilities li.yes .dot {
+    background-color: var(--teal);
+}
+
+.facilities li.yes strong {
+    color: var(--text);
 }
 </style>

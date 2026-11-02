@@ -20,68 +20,140 @@ const filteredStops = computed(() =>{
 </script>
 
 <template>
-    <body>
-        
-    
-<div class="content">
-<input placeholder="search for stop" v-model="input"/>
-<p v-if="loading">loading stops...</p>
-<p v-else-if="message">{{ message }}</p>
-<p v-else-if="filteredStops.length === 0">there are no stops yet</p>
-<div class="grid" v-else>
-    <div v-for="stop in filteredStops" :key="stop.id" >
-        <RouterLink class="stop" :to="{ name: 'Detail', params: { id: stop.id } }">
-            <h2 class="text">{{ stop.name }}</h2>
+<div class="page">
+    <div class="page-top">
+        <div>
+            <h1 class="page-title">Stops</h1>
+            <p class="subtitle">Pick a stop to see its lines and facilities.</p>
+        </div>
+        <input class="search" placeholder="Search for a stop..." v-model="input"/>
+    </div>
+
+    <p class="status" v-if="loading">Loading stops...</p>
+    <p class="status error" v-else-if="message">{{ message }}</p>
+    <p class="status" v-else-if="filteredStops.length === 0">No stops found.</p>
+
+    <div class="grid" v-else>
+        <RouterLink
+            v-for="stop in filteredStops"
+            :key="stop.id"
+            class="card"
+            :to="{ name: 'Detail', params: { id: stop.id } }"
+        >
             <img
-             v-if="stop.image_url"
-             :src="stop.image_url"
-             :alt="stop.name"
-             loading="lazy">
-             
+                v-if="stop.image_url"
+                class="photo"
+                :src="stop.image_url"
+                :alt="stop.name"
+                loading="lazy">
+            <div v-else class="photo no-photo">No photo</div>
+
+            <div class="card-body">
+                <h2>{{ stop.name }}</h2>
+
+                <!-- stop.lines looks like "A;B", so split it into ["A", "B"] -->
+                <div class="lines">
+                    <span v-for="line in stop.lines.split(';')" :key="line" class="line-badge">{{ line }}</span>
+                </div>
+
+                <div class="chips">
+                    <span v-if="stop.wheelchair_accessible" class="chip">Step-free</span>
+                    <span v-if="stop.has_shelter" class="chip">Shelter</span>
+                    <span v-if="stop.has_bench" class="chip">Bench</span>
+                    <span v-if="stop.has_ticket_machine" class="chip">Tickets</span>
+                    <span v-if="stop.has_display" class="chip">Display</span>
+                </div>
+            </div>
         </RouterLink>
     </div>
 </div>
-</div>
-</body>
 </template>
-<style scoped>
 
-.stop{
-    display:flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-direction: column;
-    text-decoration: none;
-    color: black;
-    border: 2px solid  #6DD4B1;
-    border-radius: 30px;
-    padding: 3%;
-    margin: 2%;
-    background-color: #6DD4B1;
+<style scoped>
+.subtitle {
+    margin: 0.2rem 0 0;
+    color: var(--text-light);
 }
 
-.content{
-    display:flex;
+.search {
+    max-width: 320px;
+}
+
+/* 1 column on phones, 2 on tablets, 3 on bigger screens */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 600px) {
+    .grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 900px) {
+    .grid {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden; /* keeps the photo inside the rounded corners */
+    text-decoration: none;
+    color: var(--text);
+}
+
+.card:hover {
+    border-color: var(--blue);
+}
+
+.card:hover h2 {
+    color: var(--blue);
+}
+
+.photo {
+    width: 100%;
+    height: 180px;
+    object-fit: cover; /* fills the box without stretching the image */
+    border-bottom: 4px solid var(--green);
+}
+
+.no-photo {
+    display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    border: 2px solid  #0257A5;
-    border-radius: 30px;
-    background-color: #0257A5;
+    background-color: var(--bg);
+    color: var(--text-light);
+    font-weight: 600;
 }
 
-img{
- width: 50%;
- height: auto;
- border-radius: 30px;
+.card-body {
+    padding: 1rem;
 }
 
-.grid{   
-    margin: 1%;
+.card-body h2 {
+    font-size: 1.4rem;
 }
 
-.text{
-    font-size: clamp(1.3em, 2.5vw, 2.25rem);
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.8rem;
 }
 
+.chip {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    padding: 0.1rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+}
 </style>

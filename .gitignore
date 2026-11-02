@@ -51,3 +51,6 @@ supabase/.branches/
 supabase/.env
 
 .claude
+# Brand kit (reference only, used assets are copied to public/)
+design/
+UI.zip
