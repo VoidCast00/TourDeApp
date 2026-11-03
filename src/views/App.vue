@@ -14,7 +14,7 @@ const route = useRoute()
 
         <nav class="nav">
             <RouterLink to="/stops" :class="{ active: route.path.startsWith('/stops') }">Stops</RouterLink>
-            <RouterLink to="/admin" :class="{ active: route.path.startsWith('/admin') }">Admin</RouterLink>
+            
             <RouterLink to="/login" :class="{ active: route.path === '/login' }">Log in</RouterLink>
         </nav>
     </div>
@@ -25,7 +25,7 @@ const route = useRoute()
 </main>
 
 <footer class="footer">
-    TourDeApp · Think different Academy
+    
 </footer>
 </template>
 
